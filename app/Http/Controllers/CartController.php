@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Models\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class CartController extends Controller
 {
@@ -30,5 +35,18 @@ class CartController extends Controller
     {
         return true;
     }
+
+
+    public function addToCartFromStore(Request $request)
+    {
+             Cart::updateOrCreate(
+            ['user_id' => Auth::id(), 'product_id' => $request->product_id],
+            ['quantity' => DB::raw('quantity + ' . 1), 'updated_at' => now()]
+        );
+
+
+        return redirect()->route('cart.index')->with('message', 'Product added to cart');
+    }
+
 
 }
