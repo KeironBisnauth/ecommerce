@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -51,6 +52,18 @@ class User extends Authenticatable
     /**
      *  =============== RELATIONSHIPS  ===============
      */
+/**
+     * The products that belong to the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'cart', 'user_id', 'product_id')
+            ->withPivot('id', 'quantity')
+            ->withTimestamps();
+    }
+
 
 
     /**
@@ -64,7 +77,10 @@ class User extends Authenticatable
 
     public function getGroups(): array
     {
-        return [];
+          $group_ids = [1];
+
+          return $group_ids;
+
     }
 
 

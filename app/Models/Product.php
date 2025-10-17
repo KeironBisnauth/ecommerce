@@ -43,7 +43,8 @@ class Product extends Model
     }
 
 
-    public function scopeSingleProdcut(Builder $query, int $id)
+    public function scopeSingleProduct(Builder $query, int $id)
+
     {
         $query->where('products.id', $id);
     }
